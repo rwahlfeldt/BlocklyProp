@@ -13,13 +13,14 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav" id="navbar-left">
                 <!--  <li><a href="help/index.html">Manual</a></li> -->
-                <li class="dropdown">
+                <li><a class="external_link" href="<url:getUrl url="/projectcreate.jsp?lang=PROPC"/>" ><fmt:message key="editor.newproject.title" /></a></li>
+                <!--  <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="editor.newproject.title" /><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="<url:getUrl url="/projectcreate.jsp?lang=SPIN"/>"><fmt:message key="editor.newproject.spin" /></a></li>
                         <li><a href="<url:getUrl url="/projectcreate.jsp?lang=PROPC"/>"><fmt:message key="editor.newproject.c" /></a></li>
                     </ul>
-                </li>
+                </li> -->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="editor.projects.title" /> <b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu">
@@ -90,6 +91,9 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a id="save-project-as" href="#"><fmt:message key="editor.save-as" /></a></li>
+                                <li><a id="download-project" href="#"><fmt:message key="editor.download" /></a></li>
+                                <li><a id="upload-project" href="#"><fmt:message key="editor.upload" /></a></li>
+                                <li><a id="clear-workspace" href="#"><fmt:message key="editor.clear-workspace" /></a></li>
                             </ul>
                         </div>
                     </li>
