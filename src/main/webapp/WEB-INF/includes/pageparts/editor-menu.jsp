@@ -13,14 +13,21 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav" id="navbar-left">
                 <!--  <li><a href="help/index.html">Manual</a></li> -->
+                
+<!-- Activate From Here ---------------------------
                 <li><a class="external_link" href="<url:getUrl url="/projectcreate.jsp?lang=PROPC"/>" ><fmt:message key="editor.newproject.title" /></a></li>
-                <!--  <li class="dropdown">
+---- To Here when closing SPIN access --------- -->
+
+<!-- Delete From Here ------------------------- -->
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="editor.newproject.title" /><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="<url:getUrl url="/projectcreate.jsp?lang=SPIN"/>"><fmt:message key="editor.newproject.spin" /></a></li>
                         <li><a href="<url:getUrl url="/projectcreate.jsp?lang=PROPC"/>"><fmt:message key="editor.newproject.c" /></a></li>
                     </ul>
-                </li> -->
+                </li>
+<!-- To Here when closing SPIN access --------- -->
+                
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><fmt:message key="editor.projects.title" /> <b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu">
