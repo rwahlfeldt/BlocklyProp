@@ -5,6 +5,7 @@
  */
 
 
+
 var baseUrl = $("meta[name=base]").attr("content");
 
 var projectData = null;
@@ -65,7 +66,7 @@ saveProject = function () {
         var previousOwner = projectData['yours'];
         projectData = data;
         projectData['code'] = code; // Save code in projectdata to be able to verify if code has changed upon leave
-        utils.showMessage("Project saved", "The project has been saved");
+        utils.showMessage(Blockly.Msg.DIALOG_PROJECT_SAVED, Blockly.Msg.DIALOG_PROJECT_SAVED_TEXT);
         if (!previousOwner) {
             window.location.href = baseUrl + 'projecteditor?id=' + data['id'];
         }
@@ -82,7 +83,7 @@ saveProjectAs = function () {
                 var previousOwner = projectData['yours'];
                 projectData = data;
                 projectData['code'] = code; // Save code in projectdata to be able to verify if code has changed upon leave
-                utils.showMessage("Project saved", "The project has been saved");
+                utils.showMessage(Blockly.Msg.DIALOG_PROJECT_SAVED, Blockly.Msg.DIALOG_PROJECT_SAVED_TEXT);
                 // Reloading project with new id
                 window.location.href = baseUrl + 'projecteditor?id=' + data['id'];
             });
@@ -107,7 +108,7 @@ loadProject = function () {
 
 window.onbeforeunload = function () {
     if (checkLeave()) {
-        return "The project has been changed since the last save.";
+        return Blockly.Msg.DIALOG_CHANGED_SINCE;
     }
 };
 
@@ -242,7 +243,8 @@ function appendCode() {
 };
 
 function clearWorkspace() {
-        utils.confirm("Clear workspace", "Are you sure you want to clear your workspace?  This action cannot be undone!", function (value) {
+//        utils.confirm("Clear workspace", "Are you sure you want to clear your workspace?  This action cannot be undone!", function (value) {
+        utils.confirm(Blockly.Msg.DIALOG_CLEAR_WORKSPACE, Blockly.Msg.DIALOG_CLEAR_WORKSPACE_WARNING, function (value) {
         if (value) {
             window.frames["content_blocks"].location.reload();
             window.frames["content_blocks"].setProfile(projectData['board']);
