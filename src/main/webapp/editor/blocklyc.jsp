@@ -76,8 +76,8 @@
                         
                         <label class="control-label"><fmt:message key="editor.upload.selectfile" /></label>
                         <input id="selectfile" type="file" onchange="uploadHandler(this.files);">
-                        <div id="selectfile-verify-valid" style="visibility: hidden;"><font color="green" size="+2">&#10003</font> <fmt:message key="editor.upload.valid" /></div>
-                        <div id="selectfile-verify-notvalid" style="visibility: hidden;"><font color="red" size="+2">&#10060</font> <fmt:message key="editor.upload.notvalid" /></div>
+                        <div id="selectfile-verify-valid" style="visibility: hidden;"><font color="green" size="+2">&#10003;</font> <fmt:message key="editor.upload.valid" /></div>
+                        <div id="selectfile-verify-notvalid" style="visibility: hidden;"><font color="red" size="+2">&#10060;</font> <fmt:message key="editor.upload.notvalid" /></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" disabled="true" id="selectfile-replace" onclick="replaceCode();"><fmt:message key="editor.button.replace" /></button>
