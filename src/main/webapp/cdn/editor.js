@@ -13,6 +13,8 @@ var projectLoaded = false;
 
 var idProject = 0;
 
+var uploadedXML = '';
+
 $(document).ready(function () {
     idProject = getUrlParameters('project', '', false);
     if (!idProject) {
@@ -35,6 +37,15 @@ $(document).ready(function () {
     });
     $('#save-project-as').on('click', function () {
         saveProjectAs();
+    });
+    $('#download-project').on('click', function () {
+        downloadCode();
+    });
+    $('#upload-project').on('click', function () {
+        uploadCode();
+    });
+    $('#clear-workspace').on('click', function () {
+        clearWorkspace();
     });
 
 });
@@ -152,3 +163,93 @@ function getUrlParameters(parameter, staticURL, decode) {
 setInterval(function () {
     $.get(baseUrl + 'ping');
 }, 60000);
+
+function downloadCode() {
+    var pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(projectData['code']));
+    pom.setAttribute('download', 'Project' + idProject + '.xml');
+
+    if (document.createEvent) {
+        var event = document.createEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        pom.dispatchEvent(event);
+    }
+    else {
+        pom.click();
+    }
+};
+
+function uploadCode() {
+
+        $('#upload-dialog').modal('show');
+
+};
+
+
+function uploadHandler(files) {
+    document.getElementById("selectfile-verify-notvalid").style.visibility = "hidden";
+    document.getElementById("selectfile-verify-valid").style.visibility = "hidden";
+
+    //var files = uploadedFile.target.files;
+    var UploadReader = new FileReader();
+    UploadReader.onload = function() {
+        var parsed = new DOMParser().parseFromString(this.result, "text/xml");
+        var xmlString = (new XMLSerializer()).serializeToString(parsed);
+        if(files[0].type === 'text/xml' && xmlString.indexOf("<xml xmlns=\"http://www.w3.org/1999/xhtml\"><block" === 0)) {
+            document.getElementById("selectfile-verify-valid").style.visibility = "visible";
+            document.getElementById("selectfile-replace").disabled = false;
+            document.getElementById("selectfile-append").disabled = false;
+            uploadedXML = xmlString;
+        } else {
+            document.getElementById("selectfile-verify-notvalid").style.visibility = "visible";
+            document.getElementById("selectfile-replace").disabled = true;
+            document.getElementById("selectfile-append").disabled = true;
+            uploadedXML = '';
+        }
+    };
+    UploadReader.readAsText(files[0]);
+
+};
+
+function replaceCode() {
+    $('#upload-dialog').modal('hide');
+    if(uploadedXML !== '') {
+        window.frames["content_blocks"].location.reload();
+        window.frames["content_blocks"].setProfile(projectData['board']);
+        window.frames["content_blocks"].init(projectData['board'], []);
+        projectData['code'] = uploadedXML;
+        window.frames["content_blocks"].load(projectData['code']);
+    }
+};
+
+function appendCode() {
+    $('#upload-dialog').modal('hide');
+    if(uploadedXML !== '') {
+        var projCode = projectData['code'];
+        projCode = projCode.substring(42,projCode.length);
+        projCode = projCode.substring(0,(projCode.length - 6));
+        
+        var newCode = uploadedXML;
+        newCode = newCode.substring(42,newCode.length);
+        newCode = newCode.substring(0,(newCode.length - 6));
+        
+        window.frames["content_blocks"].location.reload();
+        window.frames["content_blocks"].setProfile(projectData['board']);
+        window.frames["content_blocks"].init(projectData['board'], []);
+        projectData['code'] = '<xml xmlns="http://www.w3.org/1999/xhtml">' + projCode + newCode + '</xml>';
+        window.frames["content_blocks"].load(projectData['code']);
+    }
+};
+
+function clearWorkspace() {
+        utils.confirm("Clear workspace", "Are you sure you want to clear your workspace?  This action cannot be undone!", function (value) {
+        if (value) {
+            window.frames["content_blocks"].location.reload();
+            window.frames["content_blocks"].setProfile(projectData['board']);
+            window.frames["content_blocks"].init(projectData['board'], []);
+            projectData['code'] = '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>';
+            window.frames["content_blocks"].load(projectData['code']);
+        }
+    });
+};
+
