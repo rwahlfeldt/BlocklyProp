@@ -239,7 +239,14 @@ function uploadHandler(files) {
     UploadReader.onload = function() {
         var parsed = new DOMParser().parseFromString(this.result, "text/xml");
         var xmlString = (new XMLSerializer()).serializeToString(parsed);
-        if(files[0].type === 'image/svg+xml' && xmlString.indexOf("<svg blocklyprop=\"blocklypropproject\"" === 0)) {
+        
+        //validate file, screen for potentially malicious code.
+        if(files[0].type === 'image/svg+xml' 
+            && xmlString.indexOf("<svg blocklyprop=\"blocklypropproject\"") === 0
+            && xmlString.indexOf("<!ENTITY") === -1
+            && xmlString.indexOf("CDATA") === -1
+            && xmlString.indexOf("<!--") === -1        
+        ) {
             document.getElementById("selectfile-verify-valid").style.visibility = "visible";
             document.getElementById("selectfile-replace").disabled = false;
             document.getElementById("selectfile-append").disabled = false;
@@ -256,7 +263,6 @@ function uploadHandler(files) {
     if(uploadedXML !== '') {
         uploadedXML = uploadedXML.substring(uploadedXML.indexOf("<block"), (uploadedXML.length - 6));
         uploadedXML = '<xml xmlns="http://www.w3.org/1999/xhtml">' + uploadedXML + '</xml>';
-        alert(uploadedXML);
     };
 
 };
